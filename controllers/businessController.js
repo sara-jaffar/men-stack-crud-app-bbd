@@ -1,9 +1,11 @@
 const express = require('express');
 const router = express.Router();
+const Business = require('../models/business');
 
-const Business = require('../models/business')
-router.get('/', (req, res) => {
-    res.send('do i work?')
+router.get('/', async (req, res) => {
+    const allBusinesses = await Business.find();
+    console.log(`allBusinesses: `, allBusinesses);
+    res.render('businesses/index.ejs', { businesses: allBusinesses })
 })
 
 router.get('/new', (req, res) => {
@@ -18,7 +20,7 @@ router.post('/', async (req, res) => {
     }
     console.log(req.body);
     await Business.create(req.body)
-    res.redirect('/businesses/new');
+    res.redirect('/businesses/');
 })
 
 
