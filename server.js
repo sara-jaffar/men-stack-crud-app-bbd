@@ -5,6 +5,9 @@ const mongoose = require("mongoose");
 const app = express();
 const path = require('path');
 
+// CONTROLLERS
+const businessesController = require("./controllers/businessController");
+
 mongoose.connect(process.env.MONGODB_URI);
 
 mongoose.connection.on("connected", () => {
@@ -13,11 +16,15 @@ mongoose.connection.on("connected", () => {
 
 // MIDDLEWARE
 app.use(express.static(path.join(__dirname, "public")));
+app.use(express.urlencoded({ extended: false }));
+
+app.get('/', (req, res) => {
+    res.render('index.ejs');
+})
+
+app.use("/businesses", businessesController);
 
 app.listen(3000, () => {
     console.log('Listening on port 3000');
 })
 
-app.get('/', (req, res) => {
-    res.render('index.ejs');
-})
