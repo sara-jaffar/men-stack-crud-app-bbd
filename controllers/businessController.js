@@ -4,7 +4,7 @@ const Business = require('../models/business');
 
 router.get('/', async (req, res) => {
     const allBusinesses = await Business.find();
-    console.log(`allBusinesses: `, allBusinesses);
+    // console.log(`allBusinesses: `, allBusinesses);
     res.render('businesses/index.ejs', { businesses: allBusinesses })
 })
 
@@ -23,5 +23,10 @@ router.post('/', async (req, res) => {
     res.redirect('/businesses/');
 })
 
+// SHOW ONE BUSINESS
+router.get('/:businessId', async (req, res) => {
+	const foundBusiness = await Business.findById(req.params.businessId);
+	res.render('businesses/show.ejs', { business: foundBusiness });
+});
 
 module.exports = router;
