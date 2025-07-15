@@ -29,4 +29,14 @@ router.get('/:businessId', async (req, res) => {
 	res.render('businesses/show.ejs', { business: foundBusiness });
 });
 
+router.delete('/:businessId', async (req, res) => {
+	await Business.findByIdAndDelete(req.params.businessId);
+	res.redirect('/businesses');
+});
+
+router.get('/:businessId/edit', async (req, res) => {
+	const foundBusiness = await Business.findById(req.params.businessId);
+	res.render('businesses/edit.ejs', { business: foundBusiness });
+});
+
 module.exports = router;
